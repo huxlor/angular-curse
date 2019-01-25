@@ -5,4 +5,13 @@ import { Component } from '@angular/core';
     templateUrl: './body.component.html'
 })
 
-export class BodyComponent{}
+export class BodyComponent {
+    frase: any = {
+        mensaje: 'Hey! Im learning Angular',
+        autor: 'Sebastian Diaz'
+    };
+
+    mostrar = true;
+
+    personajes: string[] = ['Sebastian', 'Karine', 'Paula'];
+}
