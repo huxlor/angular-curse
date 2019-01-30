@@ -11,12 +11,12 @@ import { Router } from '@angular/router';
 export class HeroesComponent implements OnInit {
   heroes: any[] = [];
 
-  constructor(private _heroesService: HeroesService, 
+  constructor(private _heroesService: HeroesService,
               private router: Router
   ) { }
 
   ngOnInit() {
-    this.heroes = this._heroesService.getHeroes(); 
+    this.heroes = this._heroesService.getHeroes();
   }
 
   verHeroe(idx: number) {
