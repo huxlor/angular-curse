@@ -64,7 +64,7 @@ export class HeroesService {
       return this.heroes[idx];
     }
 
-    buscarHeroes( termino: string ): Heroe {
+    buscarHeroes( termino: string ): Heroe[] {
       // tslint:disable-next-line:prefer-const
       let heroesArr: Heroe[] = [];
       termino = termino.toLowerCase();
