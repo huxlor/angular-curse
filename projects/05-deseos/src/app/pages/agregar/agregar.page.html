@@ -5,7 +5,7 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/"></ion-back-button>
     </ion-buttons>
-    <ion-title>Nombre Lista</ion-title>
+    <ion-title>{{ lista.titulo }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -13,7 +13,7 @@
   <ion-list>
     <ion-item>
         <ion-label position="floating">Nuevo Item</ion-label>
-        <ion-input type="text"></ion-input>
+        <ion-input type="text" [(ngModel)]="nombreItem" (keyup.enter)="agregarItem()"></ion-input>
       </ion-item>
   </ion-list>
 
@@ -21,9 +21,9 @@
     <ion-list-header>Sin Completar</ion-list-header>
   </ion-list-header>
 
-  <ion-item>
-    <ion-checkbox slot="start"></ion-checkbox>
-    <ion-label>Hacer mercado</ion-label>
+  <ion-item *ngFor="let item of lista.items">
+    <ion-checkbox slot="start" [(ngModel)]="item.completado"></ion-checkbox>
+    <ion-label>{{ item.desc }}</ion-label>
   </ion-item>
 
 </ion-content>
