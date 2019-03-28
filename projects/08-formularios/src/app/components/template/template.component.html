@@ -4,7 +4,7 @@
 
   <div>
 
-    <div class="form-group row">
+    <div class="form-group row" [ngClass]="{ 'has-danger': (nombre.errors?.minlength || nombre.errors?.required) && nombre.touched }">
       <label class="col-2 col-form-label">Nombre</label>
       <div class="col-8">
 
@@ -16,8 +16,8 @@
                minlength="3"
                required
                #nombre="ngModel">
-        <div *ngIf="nombre.errors?.required">Campo obligatorio</div>
-        <div *ngIf="nombre.errors?.minlength">
+        <div *ngIf="nombre.errors?.required" class="form-control-feedback">Campo obligatorio</div>
+        <div *ngIf="nombre.errors?.minlength" class="form-control-feedback">
           Debe ingresar mínimo {{ nombre.errors.minlength.requiredLength }} carácteres
         </div>
                
@@ -65,15 +65,72 @@
     </div>
   </div>
 
+  <div class="form-group row">
+    <label class="col-2 col-form-label">Pais</label>
+    <div class="col-md-8">
+      <select [(ngModel)]="usuario.pais" class="form-control" name="pais"> 
+        <option value="">Seleccione un Pais</option>
+        <option *ngFor="let pais of paises" [value]="pais.codigo">{{ pais.nombre }}</option> 
+      </select> 
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label class="col-2 col-form-label">Correo</label>
+    <div class="col-md-8">
+
+      <label    *ngFor="let genero of sexos"
+                class="custom-control custom-radio">
+        <input  [(ngModel)]="usuario.sexo"
+                name="sexo" 
+                [value]="genero"
+                type="radio" 
+                class="custom-control-input">
+        <span class="custom-control-indicator"></span>
+        <span class="custom-control-description">{{ genero }}</span>
+      </label>
+
+      <!-- <label class="custom-control custom-radio">
+        <input  [(ngModel)]="usuario.sexo"
+                name="sexo" 
+                value="Mujer"
+                type="radio" 
+                class="custom-control-input">
+        <span class="custom-control-indicator"></span>
+        <span class="custom-control-description">Mujer</span>
+      </label> -->
+
+    </div>
+  </div>
+
+  <div class="form-group row">
+      <label class="col-2 col-form-label">Aceptar</label>
+      <div class="col-md-8">
+        <label class="custom-control custom-checkbox">
+          <input  [(ngModel)]="usuario.acepta" 
+                  name="acepta"
+                  type="checkbox" 
+                  class="custom-control-input"
+                  required>
+          <span class="custom-control-indicator"></span>
+          <span class="custom-control-description">Aceptar TYC</span>
+        </label>
+      </div>
+  </div>
 
 
+  <!-- [disabled]="!forma.valid" -->
   <div class="form-group row">
     <label class="col-2 col-form-label">&nbsp;</label>
     <div class="input-group col-md-8">
-      <button type="submit" class="btn btn-outline-primary">
+      <button [disabled]="!forma.valid" type="submit" class="btn btn-outline-primary">
         Guardar
       </button>
     </div>
   </div>
 
 </form>
+
+<pre>
+  {{ usuario | json }}
+</pre>
