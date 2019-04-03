@@ -1,6 +1,10 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 import { formControlBinding } from '@angular/forms/src/directives/reactive_directives/form_control_directive';
+// tslint:disable-next-line:import-blacklist
+import { Observable } from 'rxjs/Rx';
+import { promise } from 'protractor';
+import { resolve, reject } from 'q';
 
 
 @Component({
@@ -17,7 +21,7 @@ export class DataComponent {
       nombre: 'Sebastian',
       apellido: 'Diaz'
     },
-    correo: 'jsebasdc@gmail.com'
+    correo: 'jsebasdc@gmail.com' 
   };
 
   constructor() {
@@ -38,10 +42,27 @@ export class DataComponent {
                                   ]),
       'pasatiempos': new FormArray([
             new FormControl('Correr', Validators.required)
-      ])
+      ]),
+      'username': new FormControl('', Validators.required, this.existeUsuario),
+      'password1': new FormControl('', Validators.required),
+      'password2': new FormControl()
     });
 
     // this.forma.setValue( this.usuario );
+    this.forma.controls['password2'].setValidators([
+        Validators.required,
+        this.noIgual.bind(this.forma)
+    ]);
+
+    this.forma.controls['username'].valueChanges
+        .subscribe( data => {
+          console.log({data});
+    });
+
+    this.forma.controls['username'].statusChanges
+        .subscribe( data => {
+          console.log({data});
+    });
 
   }
 
@@ -58,6 +79,36 @@ export class DataComponent {
       };
     }
   }
+
+  noIgual( control: FormControl ): {[s: string]: boolean} {
+
+    const forma: any = this;
+    if ( control.value !== forma.controls['password1'].value ) {
+      return{
+        noiguales: true
+      };
+    }
+  }
+
+  existeUsuario( control: FormControl ): Promise<any>|Observable<any> {
+      const promesa = new Promise(
+        // tslint:disable-next-line:no-shadowed-variable
+        (resolve, reject) => {
+
+          setTimeout( () => {
+            if ( control.value === 'huxlor' ) {
+              resolve({existe: true});
+            } else {
+              resolve(null);
+            }
+          }, 3000);
+
+        }
+      );
+
+      return promesa;
+  }
+
 
   guardarCambios () {
     console.log(this.forma);
