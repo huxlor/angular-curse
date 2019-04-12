@@ -1,7 +1,11 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
+
+// Services
+import { HeroesService } from './services/heroes.service';
 
 
 import { AppComponent } from './app.component';
@@ -20,9 +24,12 @@ import { appRouting } from './app.routes';
   imports: [
     BrowserModule,
     appRouting,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
-  providers: [],
+  providers: [
+    HeroesService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
