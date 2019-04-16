@@ -32,17 +32,24 @@ export class HeroeComponent implements OnInit {
                private router: Router,
                private route: ActivatedRoute ) {
       this.route.params
-        .subscribe( parametros => this.llave = parametros['id']);
+        .subscribe( parametros => {
+          this.llave = parametros['id'];
+          if ( this.llave !== 'nuevo') {
+              this._heroesService.getHeroe( this.llave )
+                .subscribe( (heroe: any ) => { this.heroe = heroe; });
+          }
+        });
   }
 
   guardar() {
     console.log(this.heroe);
 
-    if ( this.id === 'nuevo' ) {
+    // tslint:disable-next-line:triple-equals
+    if ( this.id == 'nuevo' ) {
       this._heroesService.nuevoHeroe( this.heroe ).subscribe( data => {
         this.id = data;
         this.id = this.id.name;
-        this.router.navigate(['/heroe', this.id ]);
+        this.router.navigate(['/heroe', this.id.name ]);
     },
     error => console.error(error));
     } else {
@@ -54,6 +61,13 @@ export class HeroeComponent implements OnInit {
     error => console.error(error));
     }
 
+  }
+
+  agregarNuevo( forma: NgForm ) {
+    this.router.navigate(['/heroe', 'nuevo']);
+    forma.reset({
+      casa: 'DC'
+    });
   }
 
   ngOnInit() {

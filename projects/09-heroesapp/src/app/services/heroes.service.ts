@@ -12,6 +12,7 @@ export class HeroesService {
 
   // tslint:disable-next-line:no-inferrable-types
   heroesURL: string = 'https://heroesapp-df348.firebaseio.com/heroes.json';
+  // tslint:disable-next-line:no-inferrable-types
   heroeURL: string = 'https://heroesapp-df348.firebaseio.com/heroes/';
 
   constructor( private http: HttpClient) { }
@@ -49,6 +50,31 @@ export class HeroesService {
             return res;
         }));
 
+}
+
+getHeroe( key$: string) {
+    // tslint:disable-next-line:prefer-const
+    let url = `${ this.heroeURL }/${ key$ }.json`;
+
+    return this.http.get( url)
+      .pipe(map( res => {
+        return res;
+      }));
+}
+
+getHeroes() {
+
+  return this.http.get( this.heroesURL )
+    .pipe(map( res => {
+      return res;
+    }));
+}
+
+borrarHeroe( key$: string) {
+  // tslint:disable-next-line:prefer-const
+  let url = `${ this.heroeURL }/${ key$ }.json`;
+  return this.http.delete( url )
+      .pipe(map( res => res));
 }
 
 }

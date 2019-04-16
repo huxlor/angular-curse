@@ -1,12 +1,15 @@
-<h3>Héroe <small>nombre...</small></h3>
+<h3>Héroe <small>{{heroe.nombre}}</small></h3>
 <button class="btn btn-outline-danger"
         [routerLink]="['heroes']">Atrás</button>
+<button (click)="agregarNuevo(forma)"
+        type="button" class="btn btn-outline-success"
+        style="margin-left: 10px">Nuevo</button>
 <hr>
 
 <div class="row animated fadeIn fast">
   <div class="col-md-12"> 
 
-    <form (ngSubmit)="guardar()" #forma="ngForm">  
+    <form (ngSubmit)="guardar()" #forma="ngForm">   
 
       <div class="form-group">   
         <label>Nombre</label>
