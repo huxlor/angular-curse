@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ChatService } from '../../providers/chat.service';
+import { element } from 'protractor';
 
 
 @Component({
@@ -7,20 +8,35 @@ import { ChatService } from '../../providers/chat.service';
   templateUrl: './chat.component.html',
   styles: []
 })
-export class ChatComponent {
+export class ChatComponent implements OnInit {
 
   // tslint:disable-next-line:no-inferrable-types
   mensaje: string = '';
+  elemento: any;
 
   constructor( public _cs: ChatService ) {
     this._cs.cargarMensajes()
-            .subscribe( (mensajes: any[]) => {
-                console.log(mensajes);
+            .subscribe( () => {
+
+              setTimeout(() => {
+                this.elemento.scrollTop = this.elemento.scrollHeight;
+              }, 20);
             });
+  }
+
+  ngOnInit() {
+    this.elemento = document.getElementById('app-mensajes');
   }
 
   enviar_mensaje() {
     console.log(this.mensaje);
+    if ( this.mensaje.length === 0 ) {
+        return;
+    }
+
+    this._cs.agregarMensaje( this.mensaje )
+            .then( () => this.mensaje = '')
+            .catch( ( err ) => console.error('Error al enviar', err) );
   }
 
 }
